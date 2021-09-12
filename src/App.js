@@ -12,7 +12,6 @@ function usePrevious(value) {
   });
   return ref.current;
 }
-
 const FILTER_MAP = {
   All: () => true,
   Active: task => !task.completed,
@@ -27,30 +26,23 @@ function App(props) {
 
   function toggleTaskCompleted(id) {
     const updatedTasks = tasks.map(task => {
-      // if this task has the same ID as the edited task
       if (id === task.id) {
-        // use object spread to make a new obkect
-        // whose `completed` prop has been inverted
-        return {...task, completed: !task.completed}
+        return { ...task, completed: !task.completed }
       }
       return task;
     });
     setTasks(updatedTasks);
   }
 
-
   function deleteTask(id) {
     const remainingTasks = tasks.filter(task => id !== task.id);
     setTasks(remainingTasks);
   }
 
-
   function editTask(id, newName) {
     const editedTaskList = tasks.map(task => {
-    // if this task has the same ID as the edited task
       if (id === task.id) {
-        //
-        return {...task, name: newName}
+        return { ...task, name: newName }
       }
       return task;
     });
@@ -58,18 +50,18 @@ function App(props) {
   }
 
   const taskList = tasks
-  .filter(FILTER_MAP[filter])
-  .map(task => (
-    <Todo
-      id={task.id}
-      name={task.name}
-      completed={task.completed}
-      key={task.id}
-      toggleTaskCompleted={toggleTaskCompleted}
-      deleteTask={deleteTask}
-      editTask={editTask}
-    />
-  ));
+    .filter(FILTER_MAP[filter])
+    .map(task => (
+      <Todo
+        id={task.id}
+        name={task.name}
+        completed={task.completed}
+        key={task.id}
+        toggleTaskCompleted={toggleTaskCompleted}
+        deleteTask={deleteTask}
+        editTask={editTask}
+      />
+    ));
 
   const filterList = FILTER_NAMES.map(name => (
     <FilterButton
@@ -85,13 +77,10 @@ function App(props) {
     setTasks([...tasks, newTask]);
   }
 
-
+  const listHeadingRef = useRef(null);
   const tasksNoun = taskList.length !== 1 ? 'tasks' : 'task';
   const headingText = `${taskList.length} ${tasksNoun} remaining`;
-
-  const listHeadingRef = useRef(null);
   const prevTaskLength = usePrevious(tasks.length);
-
   useEffect(() => {
     if (tasks.length - prevTaskLength === -1) {
       listHeadingRef.current.focus();
@@ -100,11 +89,13 @@ function App(props) {
 
   return (
     <div className="todoapp stack-large">
+      <h1>TodoMatic</h1>
+      {/* <Form /> */}
       <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">
         {filterList}
       </div>
-      <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
+      <h2 id="list-heading" tabIndex = "-1" ref={listHeadingRef}>
         {headingText}
       </h2>
       <ul
@@ -113,6 +104,7 @@ function App(props) {
         aria-labelledby="list-heading"
       >
         {taskList}
+
       </ul>
     </div>
   );

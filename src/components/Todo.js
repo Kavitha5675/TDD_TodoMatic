@@ -42,6 +42,7 @@ export default function Todo(props) {
           id={props.id}
           className="todo-text"
           type="text"
+          data-testid = {"editTaskText-"+props.id}
           value={newName || props.name}
           onChange={handleChange}
           ref={editFieldRef}
@@ -51,13 +52,14 @@ export default function Todo(props) {
 
         <button
           type="button"
+          data-testid = {"cancelEditedTask-"+props.id}
           className="btn todo-cancel"
           onClick={() => setEditing(false)}
         >
           Cancel
           <span className="visually-hidden">renaming {props.name}</span>
         </button>
-        <button type="submit" className="btn btn__primary todo-edit">
+        <button type="submit" className="btn btn__primary todo-edit" data-testid = {"submitEditedTask-"+props.id}>
           Save
           <span className="visually-hidden">new name for {props.name}</span>
         </button>
@@ -66,7 +68,7 @@ export default function Todo(props) {
   );
 
   const viewTemplate = (
-    <div className="stack-small">
+    <div className="stack-small" data-testid="todos">
       <div className="c-cb">
           <input
             id={props.id}
@@ -74,7 +76,7 @@ export default function Todo(props) {
             defaultChecked={props.completed}
             onChange={() => props.toggleTaskCompleted(props.id)}
           />
-          <label className="todo-label" htmlFor={props.id}>
+          <label className="todo-label" htmlFor={props.id} data-testid = {"taskText-"+props.id}>
             {props.name}
           </label>
         </div>
@@ -82,6 +84,7 @@ export default function Todo(props) {
         <button
           type="button"
           className="btn"
+          data-testid={"editTaskButton-"+props.id}
           onClick={() => setEditing(true)}
           ref={editButtonRef}
           >
@@ -89,6 +92,7 @@ export default function Todo(props) {
           </button>
           <button
             type="button"
+            data-testid = {"deleteTaskButton-"+props.id}
             className="btn btn__danger"
             onClick={() => props.deleteTask(props.id)}
           >
